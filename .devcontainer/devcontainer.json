@@ -1,12 +1,16 @@
 {
-  "name": "Python with uv and marimo",
+  "name": "LangGraph Study with uv",
   "dockerComposeFile": "docker-compose.yml",
   "service": "devcontainer",
   "workspaceFolder": "/workspace",
   "remoteUser": "vscode",
-  "initializeCommand": "export LOCAL_USER_UID=$(id -u) && export LOCAL_USER_GID=$(id -g)",
-  "updateContentCommand": "uv sync --frozen || true",
-  "postCreateCommand": "sudo chown -R vscode:vscode /workspace /home/vscode/.cache /home/vscode/.local || true",
+
+  // Linux環境でremoteUserのUID/GIDをローカルユーザーと自動同期（公式の権限問題解決方法）
+  "updateRemoteUserUID": true,
+
+  // フォールバック: updateRemoteUserUIDが機能しない環境用の権限修正
+  "postCreateCommand": "sudo chown -R vscode:vscode /workspace",
+
   "customizations": {
     "vscode": {
       "extensions": [
@@ -18,7 +22,6 @@
       ],
       "settings": {
         "python.defaultInterpreterPath": "/workspace/.venv/bin/python",
-        "python.terminal.activateEnvironment": true,
         "[python]": {
           "editor.defaultFormatter": "charliermarsh.ruff",
           "editor.formatOnSave": true,
@@ -31,7 +34,8 @@
       }
     }
   },
-  "features": {},
+
+  // marimoのデフォルトポート（2718）を転送
   "forwardPorts": [2718],
   "portsAttributes": {
     "2718": {

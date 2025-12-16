@@ -1,27 +1,29 @@
-FROM python:3.12-slim
+# uvの公式イメージをベースに使用
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
-ARG USERNAME=vscode
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-
+# 必要なパッケージをインストール（sudo, git等）
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    curl \
-    ca-certificates \
     sudo \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME
+# 非rootユーザー（vscode）を作成し、sudo権限を付与
+RUN groupadd --gid 1000 vscode \
+    && useradd --uid 1000 --gid 1000 --create-home vscode \
+    && echo "vscode ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/vscode \
+    && chmod 0440 /etc/sudoers.d/vscode
 
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
-ENV UV_LINK_MODE=copy
-ENV PATH="/home/${USERNAME}/.local/bin:$PATH"
-
-USER $USERNAME
+# 作業ディレクトリを設定
 WORKDIR /workspace
 
-RUN uv tool install marimo
+# バイトコードコンパイルを有効化（起動高速化）
+ENV UV_COMPILE_BYTECODE=1
+
+# マウントボリューム用にコピーモードを使用（リンクではなく）
+ENV UV_LINK_MODE=copy
+
+# uvが自動実行されないようにエントリーポイントをリセット
+ENTRYPOINT []
+
+# 非rootユーザーに切り替え
+USER vscode

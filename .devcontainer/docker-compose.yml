@@ -3,17 +3,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        USER_UID: ${LOCAL_USER_UID:-1000}
-        USER_GID: ${LOCAL_USER_GID:-1000}
     volumes:
+      # プロジェクトルートをコンテナの/workspaceにマウント
       - ..:/workspace:cached
-      - uv-cache:/home/vscode/.cache/uv
-      - uv-tools:/home/vscode/.local
-    environment:
-      - UV_CACHE_DIR=/home/vscode/.cache/uv
+      # .venvをコンテナ内に分離（ホスト環境との競合を防ぐ - uvベストプラクティス）
+      - /workspace/.venv
     command: sleep infinity
-
-volumes:
-  uv-cache:
-  uv-tools:

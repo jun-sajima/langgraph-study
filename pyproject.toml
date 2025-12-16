@@ -1,0 +1,6 @@
+[project]
+name = "langgraph-study"
+version = "0.1.0"
+description = "LangGraph study project"
+requires-python = ">=3.12"
+dependencies = []
