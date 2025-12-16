@@ -1,0 +1,42 @@
+{
+  "name": "Python with uv and marimo",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "vscode",
+  "initializeCommand": "export LOCAL_USER_UID=$(id -u) && export LOCAL_USER_GID=$(id -g)",
+  "updateContentCommand": "uv sync --frozen || true",
+  "postCreateCommand": "sudo chown -R vscode:vscode /workspace /home/vscode/.cache /home/vscode/.local || true",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "tamasfe.even-better-toml",
+        "marimo-team.vscode-marimo"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/workspace/.venv/bin/python",
+        "python.terminal.activateEnvironment": true,
+        "[python]": {
+          "editor.defaultFormatter": "charliermarsh.ruff",
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+          }
+        },
+        "ruff.nativeServer": "on"
+      }
+    }
+  },
+  "features": {},
+  "forwardPorts": [2718],
+  "portsAttributes": {
+    "2718": {
+      "label": "marimo",
+      "onAutoForward": "notify"
+    }
+  }
+}
