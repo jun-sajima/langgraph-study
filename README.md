@@ -138,6 +138,20 @@ uv run <tool-name>
 - **ポートフォワード**: コンテナ内のポート（2718）が自動的にローカルホストにフォワード
 - **VSCode拡張機能**: Python、Ruff、marimoなどの拡張機能が自動インストール
 
+## DeepWikiでコードを読む
+
+このプロジェクトは、DeepWikiを使って視覚的にコードを探索することができます。
+
+GitHubのURLを以下のように変換することで、DeepWiki化できます：
+
+```
+https://github.com/<username>/<repository>
+↓
+https://deepwiki.com/<username>/<repository>
+```
+
+DeepWikiを使うと、コードベースの構造を視覚的に理解しやすくなります。
+
 ## ライセンス
 
 MIT License
