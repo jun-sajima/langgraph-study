@@ -9,24 +9,35 @@ def _():
     import operator
     from typing import TypedDict, Annotated, Sequence
     from langchain_core.messages import BaseMessage, ToolMessage, HumanMessage
-    from langchain_openai import ChatOpenAI
+    from langchain_openai import AzureChatOpenAI
     from langgraph.graph import END, StateGraph
     from langchain_core.tools import tool
     import subprocess
+
+    import os
+    from dotenv import load_dotenv
     return (
         Annotated,
+        AzureChatOpenAI,
         BaseMessage,
-        ChatOpenAI,
         END,
         HumanMessage,
         Sequence,
         StateGraph,
         ToolMessage,
         TypedDict,
+        load_dotenv,
         operator,
+        os,
         subprocess,
         tool,
     )
+
+
+@app.cell
+def _(load_dotenv):
+    load_dotenv()
+    return
 
 
 @app.cell
@@ -49,8 +60,14 @@ def _(Annotated, BaseMessage, Sequence, TypedDict, operator):
 
 
 @app.cell
-def _(ChatOpenAI, exec_command):
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+def _(AzureChatOpenAI, exec_command, os):
+    llm = AzureChatOpenAI(
+        azure_deployment=os.environ.get("AZURE_OPENAI_CHAT_DEPLOYMENT"),
+        api_key=os.environ.get("AZURE_OPENAI_API_KEY"),
+        azure_endpoint=os.environ.get("AZURE_OPENAI_ENDPOINT"),
+        api_version=os.environ.get("AZURE_OPENAI_VERSION"),
+        temperature=0,
+    )
     llm_with_tool = llm.bind_tools([exec_command])
     return (llm_with_tool,)
 
@@ -80,7 +97,6 @@ def _(AgentState, ToolMessage, exec_command):
                 )
                 messages.append(tool_message)
         return {"messages": messages}
-
     return (tool_node,)
 
 
