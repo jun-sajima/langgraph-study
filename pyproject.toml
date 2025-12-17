@@ -9,5 +9,6 @@ dependencies = [
     "marimo>=0.18.4",
     "matplotlib>=3.10.8",
     "numpy>=2.3.5",
+    "pytest>=9.0.2",
     "python-dotenv>=1.2.1",
 ]
