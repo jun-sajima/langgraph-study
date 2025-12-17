@@ -5,6 +5,7 @@ FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo \
     git \
+    openssh-client \
     && rm -rf /var/lib/apt/lists/*
 
 # 非rootユーザー（vscode）を作成し、sudo権限を付与
