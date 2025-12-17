@@ -6,7 +6,7 @@ services:
     volumes:
       # プロジェクトルートをコンテナの/workspaceにマウント
       - ..:/workspace:cached
-      - ~/.ssh:/home/ubuntu/.ssh:ro
+      - ~/.ssh:/home/vscode/.ssh:ro
       # .venvをコンテナ内に分離（ホスト環境との競合を防ぐ - uvベストプラクティス）
       - /workspace/.venv
     command: sleep infinity
