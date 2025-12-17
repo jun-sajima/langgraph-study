@@ -3,4 +3,8 @@ name = "langgraph-study"
 version = "0.1.0"
 description = "LangGraph study project"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "marimo>=0.18.4",
+    "matplotlib>=3.10.8",
+    "numpy>=2.3.5",
+]
