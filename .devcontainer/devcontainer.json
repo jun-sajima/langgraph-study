@@ -18,7 +18,8 @@
         "ms-python.vscode-pylance",
         "charliermarsh.ruff",
         "tamasfe.even-better-toml",
-        "marimo-team.vscode-marimo"
+        "marimo-team.vscode-marimo",
+        "marp-team.marp-vscode"
       ],
       "settings": {
         "python.defaultInterpreterPath": "/workspace/.venv/bin/python",
